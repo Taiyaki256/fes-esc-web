@@ -116,7 +116,8 @@
 .description {
   margin: 4rem 0;
   line-height: 1.5;
-  font-size: 2vw;
+  font-size: 4vw;
+  font-weight: 800;
 }
 
 .wrapper{
@@ -125,21 +126,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 1vw;
+  margin-top: 1vw;
 
-  .glitch{
+  .text, .bomb{
     color: black;
     font-family: sans-serif;
     font-weight: 800;
+    height: full; width: full;
     position: relative;
     font-size: 5vw;
-    padding: 30px;
+    padding: 0;
     }
-  .glitch::before,
-  .glitch::after{
-    padding: 30px;
+  .bomb::before,
+  .bomb::after{
+    padding: 0;
     color: black;
-    content: "爆弾を探し、生き残れ！";
+    content: "爆弾";
     position: absolute;
     width: 100%;
     height: 100%;
@@ -148,7 +150,7 @@
     top: 0;
   }
 
-  .glitch::before
+  .bomb::before
   {
     left: 3px;
     text-shadow: -2px 0 red;
@@ -160,12 +162,12 @@
     animation-direction: reverse-alternate;
   }
 
-  .glitch::after
+  .bomb::after
   {
     left: -3px;
     text-shadow: -2px 0 blue;
     animation-name: glitch-animation-2;
-    animation-duration: 2s;
+    animation-duration: 0.8s;
     animation-timing-function: linear;
     animation-delay: 0s;
     animation-iteration-count: infinite;
@@ -177,7 +179,8 @@
   $steps: 20;
   @for $i from 0 through $steps{
     #{percentage($i*(1/$steps))} {
-      clip: rect(random(20)+vh, 12.5vw, random(20)+vh, 2vw);
+      clip-path: inset((random(100)/100*100%) 0% (random(100)/100*100%) 0%);
+      //clip-path: inset(50% 0% 0% 30%);
     }
   }
 }
@@ -187,7 +190,8 @@
   @for $i from 0 through $steps
   {
     #{percentage($i*(1/$steps))}{
-      clip: rect(random(20)+vh, 12.5vw, random(20)+vh, 2vw)
+      //clip-path: inset(100% 100% 100% 100%);
+      clip-path: inset((random(100)/100*100%) 0% (random(100)/100*100%) 0%);
     }
   }
 }
@@ -195,8 +199,8 @@
 .code {
   background: #fafafa;
   border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
+  padding: 0.25rem;
+  font-size: 1vw;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }

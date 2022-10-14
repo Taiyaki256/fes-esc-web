@@ -23,7 +23,7 @@ export default function Home() {
         <div className={styles.wrapper}>
           <p className={styles.glitch}>
             {/* Text Animation */}
-            <span className={styles.text}>爆弾を探し、生き残れ！</span>
+            <span className={styles.text}><span className={styles.bomb}>爆弾</span>を探し、生き残れ！</span>
             </p>
         </div>
       </main>
