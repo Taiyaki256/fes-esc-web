@@ -104,7 +104,7 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 6vw;
 }
 
 .title,
@@ -115,7 +115,7 @@
 .description {
   margin: 4rem 0;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 2vw;
 }
 
 .wrapper{
@@ -124,14 +124,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 200px;
+  padding-top: 1vw;
 
   .glitch{
     color: black;
     font-family: sans-serif;
     font-weight: 800;
     position: relative;
-    font-size: 100px;
+    font-size: 5vw;
     padding: 30px;
     }
   .glitch::before,
@@ -176,7 +176,7 @@
   $steps: 20;
   @for $i from 0 through $steps{
     #{percentage($i*(1/$steps))} {
-      clip: rect(random(150)+px, 230px, random(150)+px, 30px);
+      clip: rect(random(150)+px, 12.5vw, random(150)+px, 2vw);
     }
   }
 }
@@ -186,7 +186,7 @@
   @for $i from 0 through $steps
   {
     #{percentage($i*(1/$steps))}{
-      clip: rect(random(150)+px, 230px, random(150)+px, 30px)
+      clip: rect(random(150)+px, 12.5vw, random(150)+px, 2vw)
     }
   }
 }
