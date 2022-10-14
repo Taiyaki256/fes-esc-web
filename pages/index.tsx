@@ -20,6 +20,12 @@ export default function Home() {
           Escape from classroom{' '}
           <code className={styles.code}>made by 1-5</code>
         </p>
+        <div className={styles.wrapper}>
+          <p className={styles.glitch}>
+            {/* Text Animation */}
+            <span className={styles.text}>爆弾を探し、脱出せよ</span>
+            </p>
+        </div>
       </main>
 
       <footer className={styles.footer}>
