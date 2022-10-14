@@ -10,6 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .footer {
@@ -35,7 +36,7 @@
   --animation-duration: var(--duration, 800ms);
   --animation-iterations: var(--iterations, 1);
   position: relative;
-  font-size: 8vw;
+  font-size: 5vw;
   animation-name: clip-text;
   white-space: nowrap;
   cursor: default;
@@ -104,7 +105,7 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 6vw;
+  font-size: 9vw;
 }
 
 .title,
@@ -176,7 +177,7 @@
   $steps: 20;
   @for $i from 0 through $steps{
     #{percentage($i*(1/$steps))} {
-      clip: rect(random(150)+px, 12.5vw, random(150)+px, 2vw);
+      clip: rect(random(20)+vh, 12.5vw, random(20)+vh, 2vw);
     }
   }
 }
@@ -186,7 +187,7 @@
   @for $i from 0 through $steps
   {
     #{percentage($i*(1/$steps))}{
-      clip: rect(random(150)+px, 12.5vw, random(150)+px, 2vw)
+      clip: rect(random(20)+vh, 12.5vw, random(20)+vh, 2vw)
     }
   }
 }
