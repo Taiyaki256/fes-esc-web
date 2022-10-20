@@ -20,6 +20,7 @@ const Escape = () => {
             </div>
             <div className={styles.mainBottom}>
               <div className={styles.answerButton}>
+                <button className={styles.ansBtn}>Answer</button>
               </div>
             </div>
           </div>
@@ -30,9 +31,9 @@ const Escape = () => {
 
 Escape.getLayout = function getLayout(page: ReactElement) {
   return (
-  <Layout title="Layout" noshow back url="/">
+    <Layout title="Layout" noshow back url="/">
       {page}
-  </Layout>
+    </Layout>
   )
 }
 
