@@ -99,10 +99,10 @@ const Escape = () => {
             <div className={styles.mainTop}>
             </div>
             <div className={styles.question}>
-              <p>0,1,1,2,3,5,V,13,21,34,55…の時 X=?
-                1,W,27,64,125,216…の時 Y=?
-                3.1,X,1,5,9,2,6,5…の時 Z=?
-                X+Y-Z=A
+              <p>0,1,1,2,3,5,V,13,21,34,55…の時 X=?<br></br>
+                1,W,27,64,125,216…の時 Y=?<br></br>
+                3.1,X,1,5,9,2,6,5…の時 Z=?<br></br>
+                X+Y-Z=A<br></br>
                 A を答えよ</p>
             </div>
             {textArea()}
