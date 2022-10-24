@@ -5,117 +5,36 @@ import Layout from 'components/layout/Layout'
 const Escape = () => {
   const [pages, setPages] = useState(0);
   const [text, setText] = useState("");
-
-  const timer = () => {
-    return (
-      <div className={styles.timer}>
-        <div className={styles.wrapper}>
-          <div className={styles.timepartwrapper}>
-            <div className={`${styles.timepart} ${styles.minutes} ${styles.tens}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-            <div className={`${styles.timepart} ${styles.minutes} ${styles.ones}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>9</span>
-                <span className={styles.digit}>8</span>
-                <span className={styles.digit}>7</span>
-                <span className={styles.digit}>6</span>
-                <span className={styles.digit}>5</span>
-                <span className={styles.digit}>4</span>
-                <span className={styles.digit}>3</span>
-                <span className={styles.digit}>2</span>
-                <span className={styles.digit}>1</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-          </div>
-          <div className={styles.timepartwrapper}>
-            <div className={`${styles.timepart} ${styles.seconds} ${styles.tens}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>6</span>
-                <span className={styles.digit}>5</span>
-                <span className={styles.digit}>4</span>
-                <span className={styles.digit}>3</span>
-                <span className={styles.digit}>2</span>
-                <span className={styles.digit}>1</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-            <div className={`${styles.timepart} ${styles.seconds} ${styles.ones}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>9</span>
-                <span className={styles.digit}>8</span>
-                <span className={styles.digit}>7</span>
-                <span className={styles.digit}>6</span>
-                <span className={styles.digit}>5</span>
-                <span className={styles.digit}>4</span>
-                <span className={styles.digit}>3</span>
-                <span className={styles.digit}>2</span>
-                <span className={styles.digit}>1</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-          </div>
-          <div className={styles.timepartwrapper}>
-            <div className={`${styles.timepart} ${styles.hundredths} ${styles.tens}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>9</span>
-                <span className={styles.digit}>8</span>
-                <span className={styles.digit}>7</span>
-                <span className={styles.digit}>6</span>
-                <span className={styles.digit}>5</span>
-                <span className={styles.digit}>4</span>
-                <span className={styles.digit}>3</span>
-                <span className={styles.digit}>2</span>
-                <span className={styles.digit}>1</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-            <div className={`${styles.timepart} ${styles.hundredths} ${styles.ones}`}>
-              <div className={styles.digitwrapper}>
-                <span className={styles.digit}>0</span>
-                <span className={styles.digit}>9</span>
-                <span className={styles.digit}>8</span>
-                <span className={styles.digit}>7</span>
-                <span className={styles.digit}>6</span>
-                <span className={styles.digit}>5</span>
-                <span className={styles.digit}>4</span>
-                <span className={styles.digit}>3</span>
-                <span className={styles.digit}>2</span>
-                <span className={styles.digit}>1</span>
-                <span className={styles.digit}>0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div >
-    )
-  }
+  // -1 if faile, 0 is nomal, 1 is sussceeful
+  const [onStatus, setStatus] = useState(0)
 
   const check = () => {
     console.log("a");
     console.log("pages: " + pages);
     console.log("text: " + text);
+    setStatus(-1)
+
     if (text == "43" && pages == 0) {
       setPages(1);
+      setStatus(1)
     }
     if (text == "13" && pages == 1) {
       setPages(2);
+      setStatus(1)
+
     }
     if (text == "POOL" && pages == 2) {
       setPages(3);
+      setStatus(1)
+
     }
     if (text == "12" && pages == 3) {
       setPages(4);
+      setStatus(1)
+
     }
     setText("");
+
   }
 
 
@@ -127,6 +46,7 @@ const Escape = () => {
     "暗証番号 4614"
   ]
   const onclick = (key: number) => {
+    if (onStatus) { setStatus(0) }
     switch (key) {
       case 9:
         setText(text.slice(0, -1));
