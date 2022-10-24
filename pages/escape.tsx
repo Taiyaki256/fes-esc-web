@@ -8,6 +8,11 @@ const Escape = () => {
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
 
+  const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+    console.log(e.target.value);
+  };
+
   const check = () => {
     console.log("a");
     console.log("pages: " + pages);
@@ -101,7 +106,10 @@ const Escape = () => {
         <div className="text-orange-600 font-black text-lg">Enter Code</div>
         {/* for text area */}
         <div>
-          <input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5" />
+          {pages == 2 || pages == 3
+            ? < input type="text" value={text} onChange={(e) => onInput(e)} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" />
+            : < input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" />
+          }
         </div>
         {/* for keyboard */}
         <div className="grid grid-cols-3 gap-1">
