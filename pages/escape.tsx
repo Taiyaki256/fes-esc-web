@@ -9,8 +9,15 @@ const Escape = () => {
   const [onStatus, setStatus] = useState(0)
 
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-    console.log(e.target.value);
+    if (onStatus == 1 || onStatus == -1) {
+      setText(e.target.value.slice(-1));
+      setStatus(0);
+    }
+    else {
+      setText(e.target.value);
+      console.log(e.target.value);
+      setStatus(0);
+    }
   };
 
   const check = () => {
@@ -69,6 +76,26 @@ const Escape = () => {
     }
 
   }
+
+  const txvalue = () => {
+    if (onStatus == 1) {
+      return "Sussceeful"
+    }
+    if (onStatus == -1) {
+      return "Failed"
+    }
+    return text
+  }
+
+  const txclass = () => {
+    if (onStatus == 1) {
+      return "w-full h-12 border border-gray-800 bg-inherit my-1.5 font-black text-2xl text-cyan-400"
+    }
+    if (onStatus == -1) {
+      return "w-full h-12 border border-gray-800 bg-inherit my-1.5 font-black text-2xl text-rose-900"
+    }
+    return "w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl"
+  }
   const area = () => {
     const keyboard = () => {
       const items: any[] = []
@@ -107,8 +134,8 @@ const Escape = () => {
         {/* for text area */}
         <div className={pages == 4 ? ("hidden") : ("")}>
           {pages == 2
-            ? < input type="text" value={text} onChange={(e) => onInput(e)} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" />
-            : < input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" readOnly />
+            ? < input type="text" value={txvalue()} onChange={(e) => onInput(e)} className={txclass()} />
+            : < input type="text" value={txvalue()} className={txclass()} readOnly />
           }
         </div>
         {/* for keyboard */}
