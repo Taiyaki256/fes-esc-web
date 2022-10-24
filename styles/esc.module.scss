@@ -1,16 +1,211 @@
-.body{
-    width: 100%;
-    height: 100%;
-    margin:0;
-    padding:0;
+@import "~compass-mixins/lib/compass/css3";
+
+/* Play with speed and easing of the animation */
+$one-second: 1s;
+$easing: cubic-bezier(1,0,1,0);
+/* =========================================== */
+
+@mixin animate($count) {
+    $step: (100 / $count);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+    }
 }
 
+$digit-height: 100%;
+
+.digit {
+    display: inline-block;
+    font-size: 64px;
+    color: rgba(0,0,0,0.25);
+    height: $digit-height;
+    line-height: 1;
+    }
+
+.timepartwrapper {
+    display: inline-block;
+    margin-right: 50px;
+    position: relative;
+
+    &:not(:last-child):after {
+        content: ":";
+        display: block;
+        width: 30px;
+        position: absolute;
+        top: 0px;
+        right: -30px;
+        color: rgba(0,0,0,0.25);
+        font-size: 64px;
+        line-height: 0.9;
+    }
+}
+
+.timepart {
+    width: 140px;
+    text-align: center;
+    height: $digit-height;
+    overflow: hidden;
+    display: inline-block;
+    margin-left: -5px;
+    box-sizing: border-box;
+
+    .digitwrapper {
+        animation-timing-function: $easing;
+    }
+
+    &.minutes {
+        &.tens .digitwrapper {
+        animation-name: minutes-tens;
+        animation-duration: $one-second * 10 * 6 * 10 * 6;
+        animation-iteration-count: 1;
+        }
+        &.ones .digitwrapper {
+        animation-name: minutes-ones;
+        animation-duration: $one-second * 10 * 6 * 10;
+        animation-iteration-count: 6;
+        }
+    }
+
+    &.seconds {
+        &.tens .digitwrapper {
+        animation-name: seconds-tens;
+        animation-duration: $one-second * 10 * 6;
+        animation-iteration-count: 60;
+        }
+        &.ones .digitwrapper {
+        animation-name: seconds-ones;
+        animation-duration: $one-second * 10;
+        animation-iteration-count: 360;
+        }
+    }
+
+    &.hundredths {
+        &.tens .digitwrapper {
+        animation-name: hundredths-tens;
+        animation-duration: $one-second;
+        animation-iteration-count: 3600;
+        }
+        &.ones .digitwrapper {
+        animation-name: hundredths-ones;
+        animation-duration: $one-second / 10;
+        animation-iteration-count: 36000;
+        }
+    }
+}
+
+.timer {
+    background: #F1614B;
+    margin: 0;
+    font-family: "Aldrich";
+    height: 15vh;
+}
+
+@keyframes minutes-tens {
+    $step: (100 / 6);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+@keyframes minutes-ones {
+    $step: (100 / 10);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+
+@keyframes seconds-tens {
+    $step: (100 / 6);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+
+@keyframes seconds-ones {
+    $step: (100 / 10);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+
+@keyframes hundredths-tens {
+    $step: (100 / 10);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+@keyframes hundredths-ones {
+    $step: (100 / 10);
+    $progress: 0%;
+    $translate: -$digit-height;
+    @while $progress < 100 {
+        #{$progress} { transform: translateY($translate); }
+        $progress: $progress + $step;
+        $translate: $translate - $digit-height;
+        }
+    }
+
+    .wrapper {
+        margin: 100px auto;
+        width: 100%;
+        position: relative;
+
+        &:before, &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            height: 20px;
+            z-index: 10;
+        }
+
+        &:before {
+            top: 0px;
+            @include background-image(linear-gradient(top,  rgba(241,97,75,1) 0%,rgba(241,97,75,0) 100%));
+        }
+
+        &:after {
+            bottom: 0px;
+            @include background-image(linear-gradient(top,  rgba(241,97,75,0) 0%,rgba(241,97,75,1) 100%));
+        }
+    }
+
 .main{
-    background-color: black;
-    width: 100%;
-    height: 100%;
-    margin:0;
-    padding:0;
+    background: linear-gradient(192.05deg, #000F35 0%, #000000 50%, #1F0029 100%);
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.mono {
+    font-family: "Ubuntu Mono";
+    font-size:24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
 }
 
 .question{
@@ -18,6 +213,8 @@
     font-size: 25px;
     text-align: center;
     width: 100%;
+    padding-top: 8vh;
+    padding-bottom: 8vh;
     p{
         margin: 0;
         padding: 0;
@@ -31,11 +228,15 @@
     textarea{
         margin:0;
         padding:0;
+        padding-top: 2vh;
+        padding-bottom: 2vh;
+        border-color: aquamarine;
         margin-left: auto;
         margin-right: auto;
         width: 80%;
         height: 100%;
         font-size: 25px;
+        background-color: transparent;
     }
 }
 
@@ -50,8 +251,16 @@
         padding:0;
         margin-left: auto;
         margin-right: auto;
+        background-color: transparent;
+        color: aquamarine;
         width: 50%;
         height: 100%;
         font-size: 25px;
+        font-family: "Ubuntu Mono";
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 500;
+        border-color: aquamarine;
     }
 }
+
