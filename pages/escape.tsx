@@ -98,21 +98,8 @@ const Escape = () => {
       </div >
     )
   }
-  const textArea = () => {
-    return (
-      <div className={styles.textBox}>
-        <textarea rows={1} className={styles.textBox0} value={text} onChange={changeText}></textarea>
-      </div>
-    )
-  }
-  const ansBtn = () => {
-    return (
-      <div className={styles.answerButton}>
-        <button className={styles.ansBtn} onClick={() => onClick()}>OK</button>
-      </div>
-    )
-  }
-  const onClick = () => {
+
+  const check = () => {
     console.log("a");
     console.log("pages: " + pages);
     console.log("text: " + text);
@@ -130,9 +117,7 @@ const Escape = () => {
     }
     setText("");
   }
-  const changeText = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setText(e.target.value);
-  };
+
 
   const questionList: string[] = [
     "T=1 D=1 F=2 K=?",
@@ -141,21 +126,82 @@ const Escape = () => {
     "0, 1, 1, 2, 3, 5, V, 13, 21, 34, 55…の時 X =? <br> 1, W, 27, 64, 125, 216…の時 Y =? <br> 3.1, X, 1, 5, 9, 2, 6, 5…の時 Z =? <br> X + Y - Z=A <br> A を答えよ",
     "暗証番号 4614"
   ]
+  const onclick = (key: number) => {
+    switch (key) {
+      case 9:
+        setText(text.slice(0, -1));
+        break;
+      case 10:
+        setText(text + "0")
+        break;
+      case 11:
+        check()
+        break;
+      default:
+        const a: number = key + 1
+        setText(text + a.toString())
+        break;
+    }
+
+  }
+  const area = () => {
+    const keyboard = () => {
+      const items: any[] = []
+      for (let i = 0; i < 12; i++) {
+
+        // WTF !?!?!?!
+        let k: string | number;
+        switch (i) {
+          case 9:
+            k = "back"
+            break;
+          case 10:
+            k = 0
+            break;
+          case 11:
+            k = "next"
+            break;
+          default:
+            k = i + 1;
+            break;
+        }
+
+        items.push(
+          <>
+            <div id={i.toString()} onClick={() => onclick(i)} className="flex justify-center items-center text-lg border border-gray-800 h-12">{k}</div>
+          </>
+        )
+
+      }
+      return (items)
+    }
+    return (
+      <>
+        {/* for title */}
+        <div className="text-orange-600 font-black text-lg">Enter Code</div>
+        {/* for text area */}
+        <div>
+          <input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5" />
+        </div>
+        {/* for keyboard */}
+        <div className="grid grid-cols-3 gap-1">
+          {keyboard()}
+        </div>
+
+      </>
+    )
+  }
 
 
   return (
     <>
       <div className={styles.main}>
         <div className={styles.mainTop}>
-          {timer()}
         </div>
         <div className={styles.question}>
           <p className={styles.mono} dangerouslySetInnerHTML={{ __html: questionList[pages] }}></p>
         </div>
-        {textArea()}
-        <div className={styles.mainBottom}>
-          {ansBtn()}
-        </div>
+        {area()}
       </div>
     </>
   )
