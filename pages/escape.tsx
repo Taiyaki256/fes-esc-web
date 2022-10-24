@@ -103,19 +103,30 @@ const Escape = () => {
     return (
       <>
         {/* for title */}
-        <div className="text-orange-600 font-black text-lg">Enter Code</div>
+        <div className={pages == 4 ? ("hidden") : ("text-orange-600 font-black text-lg")}>Enter Code</div>
         {/* for text area */}
-        <div>
-          {pages == 2 || pages == 3
+        <div className={pages == 4 ? ("hidden") : ("")}>
+          {pages == 2
             ? < input type="text" value={text} onChange={(e) => onInput(e)} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" />
-            : < input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" />
+            : < input type="text" value={text} className="w-full h-12 border border-gray-800 bg-inherit my-1.5 font-semibold text-2xl" readOnly />
           }
         </div>
         {/* for keyboard */}
-        <div className="grid grid-cols-3 gap-1">
+        <div className={pages == 2 || pages == 4
+          ? "hidden"
+          : "grid grid-cols-3 gap-1"}>
           {keyboard()}
         </div>
-
+        {/* for tip */}
+        <div className="text-red-600 font-black text-lg text-center">{pages == 2
+          ? "Open keyboard"
+          : ""}</div>
+        {/* for answer */}
+        {
+          pages == 2
+            ? <div id="11" onClick={() => onclick(11)} className="ml-auto right-0 w-12 text-center p-auto text-lg border border-gray-800 h-12 p-1 font-bold">Next</div>
+            : ""
+        }
       </>
     )
   }
