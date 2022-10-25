@@ -1,7 +1,9 @@
+import MyTimer from 'components/timer';
 import { useEffect, useRef, useState } from 'react';
 
-const Timer = () => {
+const TimerPage = () => {
     const [isEnd, setEnd] = useState(false);
+    const [time, setTime] = useState(new Date());
 
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
@@ -10,7 +12,13 @@ const Timer = () => {
         videoRef.current?.addEventListener('ended', () => {
             setEnd(true);
             console.log('video ended');
+
+            // set time to 5 minutes
+            const time = new Date();
+            time.setSeconds(time.getSeconds() + 300);
+            setTime(time);
         });
+
     }, []);
 
     return (
@@ -18,7 +26,7 @@ const Timer = () => {
             <div className="w-screen h-screen">
                 {isEnd ? (
                     <div className="w-screen h-screen bg-black flex justify-center items-center">
-                        <h1 className="text-white text-4xl">Video Ended</h1>
+                        <MyTimer expiryTimestamp={time} />
                     </div>
                 ) : (
                     <video className="w-screen h-screen" controls muted ref={videoRef} >
@@ -31,4 +39,4 @@ const Timer = () => {
     )
 }
 
-export default Timer;
+export default TimerPage;
