@@ -14,7 +14,7 @@ const Escape = () => {
       setStatus(0);
     }
     else {
-      setText(e.target.value);
+      setText(e.target.value.toUpperCase());
       console.log(e.target.value);
       setStatus(0);
     }
@@ -35,7 +35,7 @@ const Escape = () => {
       setStatus(1)
 
     }
-    if (text == "POOL" && pages == 2) {
+    if (text == "POOL" || text == "ぷーる" || text == "プール" && pages == 2) {
       setPages(3);
       setStatus(1)
 
