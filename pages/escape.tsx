@@ -59,6 +59,7 @@ const Escape = () => {
     "0, 1, 1, 2, 3, 5, V, 13, 21, 34, 55…の時 X =? <br> 1, W, 27, 64, 125, 216…の時 Y =? <br> 3.1, X, 1, 5, 9, 2, 6, 5…の時 Z =? <br> X + Y - Z=A <br> A を答えよ",
     "暗証番号 4614"
   ]
+
   const onclick = (key: number) => {
     if (onStatus) { setStatus(0) }
     switch (key) {
