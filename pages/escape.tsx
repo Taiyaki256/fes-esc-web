@@ -1,9 +1,11 @@
 import { ReactElement, SetStateAction, useState } from "react";
+import Image from "next/image";
 import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
+import svgimage from '../public/locker.svg';
 
 const Escape = () => {
-  const [pages, setPages] = useState(0);
+  const [pages, setPages] = useState(4);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
@@ -165,6 +167,13 @@ const Escape = () => {
         <div className={styles.mainTop}>
         </div>
         <div className={styles.question}>
+          {pages == 4 ? (
+            <>
+              <Image src="/locker.svg" alt="locker image" width={526} height={526} className="w-1/2 h-1/2" />
+            </>
+          ) : (
+            <></>
+          )}
           <p className={styles.mono} dangerouslySetInnerHTML={{ __html: questionList[pages] }}></p>
         </div>
         {area()}
