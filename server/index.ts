@@ -38,7 +38,7 @@ const Game = {
 
 // a namespace for timer
 const timer = io.of("/timer");
-timer.on("connection", (socket) => {
+timer.on("connection", () => {
   console.log("timer connected");
 });
 
@@ -105,5 +105,3 @@ dashboard.on("connection", (socket) => {
 io.on("connection", (socket) => {
   // ...
 });
-
-io.listen(3000);

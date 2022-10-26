@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTimer } from 'react-timer-hook';
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/timer");
+const socket = io("http://localhost:8080/timer");
 
 
 const TimerPage = () => {

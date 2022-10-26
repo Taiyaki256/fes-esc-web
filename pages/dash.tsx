@@ -4,7 +4,7 @@ import Layout from 'components/layout/Layout'
 import { Button, Grid } from "@nextui-org/react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/dashboard");
+const socket = io("http://localhost:8080/dashboard");
 
 const Dashboard = () => {
   const [status, setStatus] = useState(0);

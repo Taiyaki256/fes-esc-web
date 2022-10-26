@@ -4,7 +4,7 @@ import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/q-12");
+const socket = io("http://localhost:8080/q-12");
 
 type Answer = {
   answer: string;
@@ -12,7 +12,7 @@ type Answer = {
 };
 
 const Escape = () => {
-  const [pages, setPages] = useState(4);
+  const [pages, setPages] = useState(0);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
