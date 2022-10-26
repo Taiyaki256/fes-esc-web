@@ -59,7 +59,7 @@ question.on("connection", (socket) => {
   if (namespace.name === "/q-" + path.toString()) {
     timer.emit("timerStart", true);
 
-    socket.on("answer", (data: string) => {
+    question.on("answer", (data: string) => {
       Game.answer = data;
       const rep: Answer = {
         answer: data,
@@ -67,14 +67,12 @@ question.on("connection", (socket) => {
       };
       namespace.emit("answer", rep);
     });
-    socket.on("check", () => {
-      socket.emit("check", true);
+    namespace.on("check", () => {
+      namespace.emit("check", socket.id);
     });
-    socket.on("next", (data: number) => {
+    namespace.on("next", (data: number) => {
       Game.page = data;
-      namespace.emit("next", {
-        page: Game.page,
-      });
+      namespace.emit("next", Game.page);
     });
   }
 });

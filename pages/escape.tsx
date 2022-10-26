@@ -1,14 +1,43 @@
-import { ReactElement, SetStateAction, useState } from "react";
+import { ReactElement, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
-import svgimage from '../public/locker.svg';
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000/q-12");
+
+type Answer = {
+  answer: string;
+  socketId: string;
+};
 
 const Escape = () => {
   const [pages, setPages] = useState(4);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+    socket.on("check", (data: string) => {
+      if (data !== socket.id) {
+        check();
+      }
+    });
+    socket.on("answer", (data: Answer) => {
+      if (data.socketId !== socket.id) {
+        setText(data.answer);
+      }
+    });
+    socket.on("next", (data: number) => {
+      setPages(data);
+    })
+
+  });
 
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onStatus == 1 || onStatus == -1) {
@@ -48,6 +77,7 @@ const Escape = () => {
 
     }
     setText("");
+    socket.emit("check", true);
 
   }
 
@@ -77,6 +107,7 @@ const Escape = () => {
         setText(text + a.toString())
         break;
     }
+    socket.emit("answer", text);
 
   }
 
