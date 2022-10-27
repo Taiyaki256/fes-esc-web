@@ -3,11 +3,13 @@ import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useTimer } from 'use-timer';
 import io from "socket.io-client";
+import QRCode from "react-qr-code";
 
 const socket = io("http://localhost:8080/timer");
 
 const TimerPage = () => {
     const [isEnd, setEnd] = useState(false);
+    const [value, setValue] = useState("");
     // const [time, setTime] = useState<Date>(new Date());
 
     const { time, start, pause, reset, status } = useTimer({
@@ -57,6 +59,12 @@ const TimerPage = () => {
                             <p>{Math.floor(time / 60)}</p> :
                             <p>{time - Math.floor(time / 60) * 60}</p>
                         </div>
+                        <QRCode
+                            size={256}
+                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            value={value}
+                            viewBox={`0 0 256 256`}
+                        />
                     </div>
                 ) : (
                     <video className="w-screen h-screen" controls muted ref={videoRef} >

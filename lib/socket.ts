@@ -16,4 +16,9 @@ type dashboard = {
   path: number;
 };
 
+const root_URL =
+  process.env.NODE_ENV !== "production"
+    ? "https://fes-esc-web.vercel.app/"
+    : "http://localhost:3000/";
+
 export type { sync, timer, dashboard };
