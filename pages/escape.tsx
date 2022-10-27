@@ -1,53 +1,119 @@
-import { ReactElement, SetStateAction, useState } from "react";
+import { ReactElement, SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
-import svgimage from '../public/locker.svg';
+import io from "socket.io-client";
+import type { sync } from "../lib/socket";
+import { useRouter } from "next/router";
+
+const socket = io("http://localhost:8080/q")
 
 const Escape = () => {
-  const [pages, setPages] = useState(4);
+  const [pages, setPages] = useState(0);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
 
+  var router = useRouter();
+  var id = router.query["id"];
+  console.log(id);
+
+  const sync = ({ page, text, status }: sync) => {
+    const data: sync = {
+      socketId: socket.id,
+
+      page: page,
+      text: text,
+      status: status,
+    }
+
+    console.log(data);
+    socket.emit("sync", data);
+  }
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+      socket.emit("join", id);
+    });
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+    socket.on("sync", (data: sync) => {
+      console.log(data);
+
+      if (data.socketId == socket.id) {
+        return
+      }
+
+      setPages(data.page!);
+      setText(data.text!);
+      setStatus(data.status!);
+    })
+
+  }, [id]);
+
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    let io_text = "";
+    const TMP_text = (n: string) => {
+      setText(n);
+      io_text = n;
+    }
     if (onStatus == 1 || onStatus == -1) {
-      setText(e.target.value.slice(-1));
+      TMP_text(e.target.value.slice(-1).toUpperCase());
       setStatus(0);
     }
     else {
-      setText(e.target.value.toUpperCase());
+      TMP_text(e.target.value.toUpperCase());
       console.log(e.target.value);
-      setStatus(0);
     }
+    sync({ socketId: socket.id, page: undefined, text: io_text, status: 0 });
   };
 
   const check = () => {
     console.log("a");
     console.log("pages: " + pages);
     console.log("text: " + text);
-    setStatus(-1)
 
+    let io_status: number = 0;
+    let io_page: number = pages;
+
+
+    // for socket
+    const TMP_status = (n: number) => {
+      setStatus(n);
+      io_status = n;
+    }
+    const TMP_page = (n: number) => {
+      setPages(n);
+      io_page = n;
+    }
+
+
+    // normal logic
+    TMP_status(-1)
     if (text == "43" && pages == 0) {
-      setPages(1);
-      setStatus(1)
+      TMP_page(1);
+      TMP_status(1)
     }
     if (text == "13" && pages == 1) {
-      setPages(2);
-      setStatus(1)
+      TMP_page(2);
+      TMP_status(1)
 
     }
     if (text == "POOL" || text == "ぷーる" || text == "プール" && pages == 2) {
-      setPages(3);
-      setStatus(1)
+      TMP_page(3);
+      TMP_status(1)
 
     }
     if (text == "12" && pages == 3) {
-      setPages(4);
-      setStatus(1)
-
+      TMP_page(4);
+      TMP_status(1)
     }
     setText("");
+    console.log(text);
+    sync({ socketId: socket.id, page: io_page, text: "", status: io_status });
 
   }
 
@@ -61,23 +127,35 @@ const Escape = () => {
   ]
 
   const onclick = (key: number) => {
-    if (onStatus) { setStatus(0) }
+    let io_status: number = 0
+    let io_text: string = ""
+    const TMP_status = (n: number) => {
+      setStatus(n);
+      io_status = n;
+    }
+    const TMP_text = (n: string) => {
+      setText(n);
+      io_text = n;
+    }
+    if (onStatus) { TMP_status(0) }
     switch (key) {
       case 9:
-        setText(text.slice(0, -1));
+        TMP_text(text.slice(0, -1));
         break;
       case 10:
-        setText(text + "0")
+        TMP_text(text + "0")
         break;
       case 11:
         check()
-        break;
+        return;
       default:
-        const a: number = key + 1
-        setText(text + a.toString())
+        const tmp = key + 1;
+        TMP_text(text + tmp.toString())
         break;
     }
 
+    console.log(text);
+    sync({ socketId: socket.id, page: undefined, text: io_text, status: 0 });
   }
 
   const txvalue = () => {
