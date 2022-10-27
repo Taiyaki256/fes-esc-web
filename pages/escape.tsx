@@ -3,19 +3,30 @@ import Image from "next/image";
 import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
 import io from "socket.io-client";
+import type { sync } from "../lib/socket";
 
-const socket = io("http://localhost:8080/q-12");
-
-type Answer = {
-  answer: string;
-  socketId: string;
-};
+const socket = io("http://localhost:8080/q-0");
 
 const Escape = () => {
   const [pages, setPages] = useState(0);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
+
+
+  const sync = ({ page, text, status }: sync) => {
+    const data: sync = {
+      socketId: socket.id,
+
+      page: page,
+      text: text,
+      status: status,
+    }
+
+    console.log(data);
+    socket.emit("sync", data);
+  }
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected");
@@ -23,20 +34,16 @@ const Escape = () => {
     socket.on("disconnect", () => {
       console.log("disconnected");
     });
-    socket.on("check", (data: string) => {
-      if (data !== socket.id) {
-        check();
-      }
-    });
-    socket.on("answer", (data: Answer) => {
-      if (data.socketId !== socket.id) {
-        setText(data.answer);
-      }
-    });
-    socket.on("next", (data: number) => {
-      setPages(data);
-    })
+    socket.on("sync", (data: sync) => {
+      console.log(data);
 
+      if (data.socketId === socket.id) {
+        return
+      }
+      setPages(data.page);
+      setText(data.text);
+      setStatus(data.status);
+    })
   });
 
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +84,8 @@ const Escape = () => {
 
     }
     setText("");
-    socket.emit("check", true);
+    console.log(text);
+    sync({ socketId: socket.id, page: pages, text, status: onStatus });
 
   }
 
@@ -107,8 +115,8 @@ const Escape = () => {
         setText(text + a.toString())
         break;
     }
-    socket.emit("answer", text);
-
+    console.log(text);
+    sync({ socketId: socket.id, page: pages, text, status: onStatus });
   }
 
   const txvalue = () => {

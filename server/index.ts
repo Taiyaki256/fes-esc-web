@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import type { sync } from "../lib/socket";
 
 const io = new Server(8080, {
   /* options */
@@ -17,88 +18,34 @@ console.log("Server started on port 8080");
 let path: number = 0;
 let timerLong: number = 10000;
 
-type Game = {
-  page: number;
-  answer: string;
-  startTime: Date;
-  timerLong: number;
-};
+let syncData: sync = {
+  socketId: "",
 
-type Answer = {
-  answer: string;
-  socketId: string;
-};
-
-const Game = {
   page: 0,
-  answer: "",
-  startTime: new Date(),
-  timerLong: 10000,
+  text: "",
+  status: 0,
 };
 
 // a namespace for timer
 const timer = io.of("/timer");
-timer.on("connection", () => {
-  console.log("timer connected");
-});
+const client = io.of(/^\/q-\d+$/);
+const dashboard = io.of("/dashboard");
 
-// timer.emit("start", {
-//   page: nowPage,
-//   answer: nowAnswer,
-//   startTime: startTime,
-//   timerLong: timerLong,
-// });
-
-// a dynamic namespace
-// ex: /q-{path}
-
-const question = io.of(/^\/q-\d+$/);
-question.on("connection", (socket) => {
-  console.log("connected");
+client.on("connection", (socket) => {
+  console.log("client connected");
   const namespace = socket.nsp;
-  if (namespace.name === "/q-" + path.toString()) {
-    timer.emit("timerStart", true);
+  if (namespace.name === "/q-" + path) {
+    socket.emit("sync", syncData);
 
-    question.on("answer", (data: string) => {
-      Game.answer = data;
-      const rep: Answer = {
-        answer: data,
-        socketId: socket.id,
-      };
-      namespace.emit("answer", rep);
-    });
-    namespace.on("check", () => {
-      namespace.emit("check", socket.id);
-    });
-    namespace.on("next", (data: number) => {
-      Game.page = data;
-      namespace.emit("next", Game.page);
+    socket.on("sync", (data: sync) => {
+      console.log("sync", data);
+      syncData = data;
+      socket.broadcast.emit("sync", data);
     });
   }
-});
 
-// a namespace for the dashboard
-// ex: /dashboard
-// method:
-//  - reset
-//  - start
-
-const dashboard = io.of("/dashboard");
-dashboard.on("connection", (socket) => {
-  console.log("connected");
-  const namespace = socket.nsp;
-  namespace.on("reset", () => {
-    Game.page = 0;
-    Game.answer = "";
-    Game.timerLong = 10000;
-    timer.emit("reset", true);
-  });
-  namespace.on("start", () => {
-    Game.page = 0;
-    Game.answer = "";
-    Game.timerLong = 10000;
-    Game.startTime = new Date();
-    timer.emit("start", true);
+  socket.on("disconnect", () => {
+    console.log("client disconnected");
   });
 });
 
