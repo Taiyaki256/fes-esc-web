@@ -1,7 +1,9 @@
 import { Server } from "socket.io";
 import type { sync, timer } from "../lib/socket";
 
-const io = new Server(8080, {
+const port = parseInt(process.env.DB_PORT || "", 10) || 8080;
+
+const io = new Server(port, {
   /* options */
   cors: {
     origin: "*",
@@ -12,7 +14,7 @@ const io = new Server(8080, {
   },
 });
 
-console.log("Server started on port 8080");
+console.log("Server started on port ", port);
 
 // for root setting
 let path: number = 0;

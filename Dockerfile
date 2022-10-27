@@ -8,8 +8,9 @@ ARG NODE_ENV
 ENV PORT $PORT
 ENV NODE_ENV=production
 
-COPY . ./
-
+COPY yarn.lock package.json ./
 RUN yarn install
+
+COPY . .
 
 CMD [ "yarn", "server" ]
