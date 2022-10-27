@@ -5,8 +5,10 @@ import Layout from 'components/layout/Layout'
 import io from "socket.io-client";
 import type { sync } from "../lib/socket";
 import { useRouter } from "next/router";
+import { wsURL } from "../lib/socket";
 
-const socket = io("http://localhost:8080/q")
+const socket = io(wsURL + "q");
+
 
 const Escape = () => {
   const [pages, setPages] = useState(0);
