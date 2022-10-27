@@ -39,8 +39,17 @@ client.on("connection", (socket) => {
 
     socket.on("sync", (data: sync) => {
       console.log("sync", data);
-      syncData = data;
-      socket.broadcast.emit("sync", data);
+      syncData.socketId = data.socketId;
+      if (data.page !== undefined) {
+        syncData.page = data.page;
+      }
+      if (data.text !== undefined) {
+        syncData.text = data.text;
+      }
+      if (data.status !== undefined) {
+        syncData.status = data.status;
+      }
+      socket.broadcast.emit("sync", syncData);
     });
   }
 
