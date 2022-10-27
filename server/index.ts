@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import type { sync, timer } from "../lib/socket";
 
-const port = parseInt(process.env.DB_PORT || "", 10) || 8080;
+const port = parseInt(process.env.PORT || "", 10) || 8080;
 
 const io = new Server(port, {
   /* options */
