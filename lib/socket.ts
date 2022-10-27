@@ -24,7 +24,7 @@ const URL =
 const wsURL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:8080/"
-    : "wss://ws.fes.demo.zhixuan.dev/";
+    : "https://ws.fes.demo.zhixuan.dev/";
 
 console.log("URL", wsURL);
 
