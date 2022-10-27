@@ -1,0 +1,92 @@
+// Font
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+.main{
+    background: linear-gradient(192.05deg, #000F35 0%, #000000 50%, #1F0029 100%);
+    min-width: 100vw;
+    min-height: 100vh;
+    padding: 0 1rem;
+}
+
+.next{
+    height: 100%;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    padding: 7%;
+
+    .keys{
+        width: 33.3%;
+        text-align: center;
+        background: linear-gradient(192.05deg, #000F35 0%, #000000 50%, #1F0029 100%);
+    }
+}
+
+.mono {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size:24px;
+}
+
+.question{
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    width: 100%;
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+    p{
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.textBox{
+    margin:0;
+    padding:0;
+    display: flex;
+    textarea{
+        margin:0;
+        padding:0;
+        padding-top: 2vh;
+        padding-bottom: 2vh;
+        border-color: aquamarine;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        height: 100%;
+        font-size: 25px;
+        background-color: transparent;
+    }
+}
+
+.answerButton{
+    margin:0;
+    padding:0;
+    margin-top: 20px;
+    display: flex;
+
+    .ansBtn{
+        margin:0;
+        padding:0;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: transparent;
+        color: aquamarine;
+        width: 50%;
+        height: 100%;
+        font-size: 25px;
+        font-family: "Ubuntu Mono";
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 500;
+        border-color: aquamarine;
+    }
+}
+

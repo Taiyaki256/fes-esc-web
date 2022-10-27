@@ -6,19 +6,34 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "nodemon"
   },
   "dependencies": {
+    "@nextui-org/react": "^1.0.0-beta.10",
     "next": "12.3.1",
+    "nodemon": "^2.0.20",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-qr-code": "^2.0.8",
+    "socket.io": "^4.5.3",
+    "use-timer": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.8.5",
     "@types/react": "^18.0.21",
+    "autoprefixer": "^10.4.12",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
+    "postcss": "^8.4.18",
+    "react-timer-hook": "^3.0.5",
     "sass": "^1.55.0",
+    "socket.io-client": "^4.5.3",
+    "tailwindcss": "^3.2.1",
     "typescript": "^4.8.4"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^5.0.10"
   }
 }
