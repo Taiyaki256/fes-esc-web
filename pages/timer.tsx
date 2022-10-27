@@ -1,11 +1,11 @@
-import MyTimer from 'components/timer';
 import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useTimer } from 'use-timer';
 import io from "socket.io-client";
 import QRCode from "react-qr-code";
+import { wsURL, URL } from 'lib/socket';
 
-const socket = io("http://localhost:8080/timer");
+const socket = io(wsURL + "timer");
 
 const TimerPage = () => {
     const [isEnd, setEnd] = useState(false);
@@ -28,14 +28,18 @@ const TimerPage = () => {
         socket.on("reset", () => {
             router.reload()
         })
-        socket.on("start", () => {
+        socket.on("start", (path: number) => {
             videoRef.current?.play();
+            console.log(path);
+            setValue(URL + "escape" + "?id=" + path.toString());
         })
         socket.on("timerStart", () => {
+            if (status == "RUNNING") { return }
             console.log(status);
             start()
         })
         socket.on("timerStop", () => {
+            console.log("stop");
             pause();
         })
     });
@@ -59,12 +63,15 @@ const TimerPage = () => {
                             <p>{Math.floor(time / 60)}</p> :
                             <p>{time - Math.floor(time / 60) * 60}</p>
                         </div>
-                        <QRCode
-                            size={256}
-                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                            value={value}
-                            viewBox={`0 0 256 256`}
-                        />
+                        <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
+                            <QRCode
+
+                                size={256}
+                                style={{ height: "auto", maxWidth: "100%", width: "14rem" }}
+                                value={value}
+                                viewBox={`0 0 256 256`}
+                            />
+                        </div>
                     </div>
                 ) : (
                     <video className="w-screen h-screen" controls muted ref={videoRef} >

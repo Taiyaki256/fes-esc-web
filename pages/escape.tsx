@@ -4,14 +4,19 @@ import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
 import io from "socket.io-client";
 import type { sync } from "../lib/socket";
+import { useRouter } from "next/router";
 
-const socket = io("http://localhost:8080/q-0");
+const socket = io("http://localhost:8080/q")
 
 const Escape = () => {
   const [pages, setPages] = useState(0);
   const [text, setText] = useState("");
   // -1 if faile, 0 is nomal, 1 is sussceeful
   const [onStatus, setStatus] = useState(0)
+
+  var router = useRouter();
+  var id = router.query["id"];
+  console.log(id);
 
   const sync = ({ page, text, status }: sync) => {
     const data: sync = {
@@ -29,6 +34,7 @@ const Escape = () => {
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected");
+      socket.emit("join", id);
     });
     socket.on("disconnect", () => {
       console.log("disconnected");
@@ -45,7 +51,7 @@ const Escape = () => {
       setStatus(data.status!);
     })
 
-  });
+  }, [id]);
 
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 

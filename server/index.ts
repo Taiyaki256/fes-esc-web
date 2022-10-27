@@ -28,35 +28,42 @@ let syncData: sync = {
 
 // a namespace for timer
 const timer = io.of("/timer");
-const client = io.of(/^\/q-\d+$/);
+const client = io.of("/q");
 const dashboard = io.of("/dashboard");
 
 client.on("connection", (socket) => {
   console.log("client connected");
-  const namespace = socket.nsp;
-  if (namespace.name === "/q-" + path) {
-    timer.emit("timerStart");
-    socket.emit("sync", syncData);
+  let room: string = "";
 
-    socket.on("sync", (data: sync) => {
-      console.log("sync", data);
-      syncData.socketId = data.socketId;
-      if (data.page !== undefined) {
-        syncData.page = data.page;
-      }
-      if (data.text !== undefined) {
-        syncData.text = data.text;
-      }
-      if (data.status !== undefined) {
-        syncData.status = data.status;
-      }
+  socket.on("join", (data: string) => {
+    console.log("join", data);
+    room = data;
+    socket.join(data);
 
-      if (syncData.page === 4) {
-        timer.emit("timerStop");
-      }
-      socket.broadcast.emit("sync", syncData);
-    });
-  }
+    if (room == path.toString()) {
+      timer.emit("timerStart");
+
+      socket.emit("sync", syncData);
+      socket.on("sync", (data: sync) => {
+        console.log("sync", data);
+        syncData.socketId = data.socketId;
+        if (data.page !== undefined) {
+          syncData.page = data.page;
+        }
+        if (data.text !== undefined) {
+          syncData.text = data.text;
+        }
+        if (data.status !== undefined) {
+          syncData.status = data.status;
+        }
+
+        if (syncData.page === 4) {
+          timer.emit("timerStop");
+        }
+        io.to(room).emit("sync", syncData);
+      });
+    }
+  });
 
   socket.on("disconnect", () => {
     console.log("client disconnected");
@@ -67,10 +74,21 @@ dashboard.on("connection", (socket) => {
   console.log("dashboard connected");
   socket.on("start", () => {
     console.log("start");
-    timer.emit("start");
+    function randomIntFromInterval(min: number, max: number) {
+      // min and max included
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    path = randomIntFromInterval(1000, 999999);
+    timer.emit("start", path);
   });
   socket.on("reset", () => {
     console.log("reset");
+    syncData = {
+      socketId: "",
+      page: 0,
+      text: "",
+      status: 0,
+    };
     timer.emit("reset");
   });
   socket.on("disconnect", () => {

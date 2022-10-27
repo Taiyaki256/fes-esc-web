@@ -19,7 +19,14 @@ const Dashboard = () => {
   });
   const previewStatus = () => {
     return (
-      <></>
+      <>
+        <p>Status</p>
+        <div>nowPlayingTeam</div>
+        <div>page</div>
+        <div>createAt</div>
+        <div>Timer</div>
+        <div>state</div>
+      </>
     )
   }
   return (

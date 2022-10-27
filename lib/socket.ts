@@ -16,9 +16,17 @@ type dashboard = {
   path: number;
 };
 
-const root_URL =
+const URL =
   process.env.NODE_ENV !== "production"
-    ? "https://fes-esc-web.vercel.app/"
-    : "http://localhost:3000/";
+    ? "http://localhost:3000/"
+    : "https://fes-esc-web.vercel.app/";
+
+const wsURL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:8080/"
+    : "wss://ws.fes.demo.zhixuan.dev/";
+
+console.log("URL", wsURL);
 
 export type { sync, timer, dashboard };
+export { URL, wsURL };
