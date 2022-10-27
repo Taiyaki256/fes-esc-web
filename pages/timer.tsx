@@ -1,15 +1,20 @@
 import MyTimer from 'components/timer';
 import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { useTimer } from 'react-timer-hook';
+import { useTimer } from 'use-timer';
 import io from "socket.io-client";
 
 const socket = io("http://localhost:8080/timer");
 
-
 const TimerPage = () => {
     const [isEnd, setEnd] = useState(false);
-    const [time, setTime] = useState<Date>(new Date());
+    // const [time, setTime] = useState<Date>(new Date());
+
+    const { time, start, pause, reset, status } = useTimer({
+        initialTime: 900,
+        timerType: 'DECREMENTAL',
+        autostart: false,
+    });
 
     useEffect(() => {
         socket.on("connect", () => {
@@ -22,54 +27,35 @@ const TimerPage = () => {
             router.reload()
         })
         socket.on("start", () => {
-            // set time to 5 minutes
-            const time = new Date();
-            time.setSeconds(time.getSeconds() + 300);
-            setTime(time);
+            videoRef.current?.play();
         })
         socket.on("timerStart", () => {
-            restart(time);
+            console.log(status);
+            start()
+        })
+        socket.on("timerStop", () => {
+            pause();
         })
     });
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
-        videoRef.current?.play();
 
         videoRef.current?.addEventListener('ended', () => {
             setEnd(true);
             console.log('video ended');
 
-            // set time to 5 minutes
-            const time = new Date();
-            time.setSeconds(time.getSeconds() + 300);
-            setTime(time);
         });
-
     }, []);
-    const {
-        seconds,
-        minutes,
-        hours,
-        days,
-        isRunning,
-        start,
-        pause,
-        resume,
-        restart,
-    } = useTimer({ expiryTimestamp: time, onExpire: () => console.warn('onExpire called') });
 
 
     return (
         <>
             <div className="w-screen h-screen">
                 {isEnd ? (
-                    <div className="w-screen h-screen bg-black flex justify-center items-center">
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '100px' }}>
-                                <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-                            </div>
-                            {/* <p>{isRunning ? 'Running' : 'Not running'}</p> */}
-
+                    <div className="w-screen h-screen flex flex-col bg-black justify-center items-center">
+                        <div className='flex flex-row text-white' style={{ fontSize: "23rem" }}>
+                            <p>{Math.floor(time / 60)}</p> :
+                            <p>{time - Math.floor(time / 60) * 60}</p>
                         </div>
                     </div>
                 ) : (

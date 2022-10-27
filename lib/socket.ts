@@ -6,4 +6,14 @@ type sync = {
   status?: number;
 };
 
-export type { sync };
+type timer = {
+  isStart: boolean;
+  addTime: number;
+  path: number;
+};
+
+type dashboard = {
+  path: number;
+};
+
+export type { sync, timer, dashboard };

@@ -32,12 +32,12 @@ const Dashboard = () => {
             <Grid.Container gap={2} justify="center">
               <Grid>
                 <Button size="xl" color="gradient" auto onClick={() => { socket.emit("start") }} className="m-2">
-                  Start
+                  Start Video
                 </Button>
               </Grid>
               <Grid>
                 <Button size="xl" color="gradient" auto onClick={() => { socket.emit("reset") }} className="m-2">
-                  Reset
+                  Reset Game
                 </Button>
               </Grid>
             </Grid.Container>

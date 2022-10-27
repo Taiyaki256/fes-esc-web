@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import type { sync } from "../lib/socket";
+import type { sync, timer } from "../lib/socket";
 
 const io = new Server(8080, {
   /* options */
@@ -35,6 +35,7 @@ client.on("connection", (socket) => {
   console.log("client connected");
   const namespace = socket.nsp;
   if (namespace.name === "/q-" + path) {
+    timer.emit("timerStart");
     socket.emit("sync", syncData);
 
     socket.on("sync", (data: sync) => {
@@ -49,12 +50,31 @@ client.on("connection", (socket) => {
       if (data.status !== undefined) {
         syncData.status = data.status;
       }
+
+      if (syncData.page === 4) {
+        timer.emit("timerStop");
+      }
       socket.broadcast.emit("sync", syncData);
     });
   }
 
   socket.on("disconnect", () => {
     console.log("client disconnected");
+  });
+});
+
+dashboard.on("connection", (socket) => {
+  console.log("dashboard connected");
+  socket.on("start", () => {
+    console.log("start");
+    timer.emit("start");
+  });
+  socket.on("reset", () => {
+    console.log("reset");
+    timer.emit("reset");
+  });
+  socket.on("disconnect", () => {
+    console.log("dashboard disconnected");
   });
 });
 
