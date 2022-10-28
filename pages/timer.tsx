@@ -28,10 +28,12 @@ const TimerPage = () => {
         });
         socket.on("reset", () => {
             router.reload()
+
         })
         socket.on("start", (path: number) => {
             videoRef.current?.play();
             console.log(path);
+            document.body.requestFullscreen();
             setValue(URL + "escape" + "?id=" + path.toString());
         })
         socket.on("timerStart", () => {
@@ -77,7 +79,7 @@ const TimerPage = () => {
                         </div>
                     </div>
                 ) : (
-                    <video className="w-screen h-screen" controls muted ref={videoRef} >
+                    <video className="w-screen h-screen" controls ref={videoRef} >
                         <source src="/video.mp4" type="video/mp4" />
                         <p>Your browser doesn{"'"}t support HTML5 video.</p>
                     </video>
