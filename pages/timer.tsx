@@ -33,7 +33,6 @@ const TimerPage = () => {
         socket.on("start", (path: number) => {
             videoRef.current?.play();
             console.log(path);
-            window.document.body.requestFullscreen();
             setValue(URL + "escape" + "?id=" + path.toString());
         })
         socket.on("timerStart", () => {
