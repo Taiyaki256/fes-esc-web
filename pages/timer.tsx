@@ -15,7 +15,7 @@ const TimerPage = () => {
     // const [time, setTime] = useState<Date>(new Date());
 
     const { time, start, pause, reset, status } = useTimer({
-        initialTime: 900,
+        initialTime: 600,
         timerType: 'DECREMENTAL',
         autostart: false,
     });
