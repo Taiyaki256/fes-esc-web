@@ -1,4 +1,4 @@
-import { ReactElement, SetStateAction, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "styles/esc.module.scss";
 import Layout from 'components/layout/Layout'
@@ -122,7 +122,7 @@ const Escape = () => {
 
   const questionList: string[] = [
     "T=1 D=1 F=2 K=?",
-    "場所 教卓のしたとか",
+    "教卓の中",
     "WD=木,RM=部屋,DR=人形,PL=?",
     "0, 1, 1, 2, 3, 5, V, 13, 21, 34, 55…の時 X =? <br> 1, W, 27, 64, 125, 216…の時 Y =? <br> 3.1, X, 1, 5, 9, 2, 6, 5…の時 Z =? <br> X + Y - Z=A <br> A を答えよ",
     "暗証番号 4614"
