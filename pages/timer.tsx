@@ -37,7 +37,6 @@ const TimerPage = () => {
         })
         socket.on("timerStart", () => {
             if (status == "RUNNING") { return }
-            if (allEnd) { return }
             console.log(status);
             start()
         })
@@ -62,21 +61,33 @@ const TimerPage = () => {
         <>
             <div className="w-screen h-screen">
                 {isEnd ? (
-                    <div className="w-screen h-screen flex flex-col bg-black justify-center items-center">
-                        <div className='flex flex-row text-white' style={{ fontSize: "23rem" }}>
-                            <p>{Math.floor(time / 60)}</p> :
-                            <p>{time - Math.floor(time / 60) * 60}</p>
-                        </div>
-                        <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
-                            <QRCode
+                    <>
 
-                                size={256}
-                                style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
-                                value={value}
-                                viewBox={`0 0 256 256`}
-                            />
-                        </div>
-                    </div>
+                        {
+                            allEnd ? (
+                                <><div className='w-full h-full flex justify-center items-center' style={{
+                                    fontSize: "23rem",
+                                }}>Good</div></>
+                            ) : (
+                                <div className="w-screen h-screen flex flex-col bg-black justify-center items-center">
+                                    <div className='flex flex-row text-white' style={{ fontSize: "23rem" }}>
+                                        <p>{Math.floor(time / 60)}</p> :
+                                        <p>{time - Math.floor(time / 60) * 60}</p>
+                                    </div>
+                                    <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
+                                        <QRCode
+
+                                            size={256}
+                                            style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
+                                            value={value}
+                                            viewBox={`0 0 256 256`}
+                                        />
+                                    </div>
+                                </div>
+
+                            )
+                        }
+                    </>
                 ) : (
                     <video className="w-screen h-screen" ref={videoRef} >
                         <source src="/video.mp4" type="video/mp4" />
