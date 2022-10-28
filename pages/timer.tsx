@@ -68,7 +68,7 @@ const TimerPage = () => {
                             allEnd ? (
                                 <><div className='w-full h-full flex justify-center items-center' style={{
                                     fontSize: "23rem",
-                                }}><span className={styles.bomb}>Good</span></div></>
+                                }}>Good</div></>
                             ) : (
                                 <>
                                     {time > 0 ? (
