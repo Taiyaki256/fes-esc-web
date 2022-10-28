@@ -79,7 +79,7 @@ const TimerPage = () => {
                         </div>
                     </div>
                 ) : (
-                    <video className="w-screen h-screen" controls ref={videoRef} >
+                    <video className="w-screen h-screen" ref={videoRef} >
                         <source src="/video.mp4" type="video/mp4" />
                         <p>Your browser doesn{"'"}t support HTML5 video.</p>
                     </video>
