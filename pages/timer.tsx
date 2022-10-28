@@ -4,6 +4,7 @@ import { useTimer } from 'use-timer';
 import io from "socket.io-client";
 import QRCode from "react-qr-code";
 import { wsURL, URL } from 'lib/socket';
+import styles from "styles/timer.module.scss";
 
 const socket = io(wsURL + "timer");
 
@@ -67,7 +68,7 @@ const TimerPage = () => {
                             allEnd ? (
                                 <><div className='w-full h-full flex justify-center items-center' style={{
                                     fontSize: "23rem",
-                                }}>Good</div></>
+                                }}><span className={styles.bomb}>Good</span></div></>
                             ) : (
                                 <>
                                     {time > 0 ? (
@@ -79,7 +80,6 @@ const TimerPage = () => {
                                                 </div>
                                                 <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
                                                     <QRCode
-
                                                         size={256}
                                                         style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
                                                         value={value}
