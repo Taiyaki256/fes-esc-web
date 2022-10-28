@@ -10,6 +10,7 @@ const socket = io(wsURL + "timer");
 const TimerPage = () => {
     const [isEnd, setEnd] = useState(false);
     const [value, setValue] = useState("");
+    const [allEnd, setAllEnd] = useState(false);
     // const [time, setTime] = useState<Date>(new Date());
 
     const { time, start, pause, reset, status } = useTimer({
@@ -35,11 +36,13 @@ const TimerPage = () => {
         })
         socket.on("timerStart", () => {
             if (status == "RUNNING") { return }
+            if (allEnd) { return }
             console.log(status);
             start()
         })
         socket.on("timerStop", () => {
             console.log("stop");
+            setAllEnd(true);
             pause();
         })
     });
@@ -67,7 +70,7 @@ const TimerPage = () => {
                             <QRCode
 
                                 size={256}
-                                style={{ height: "auto", maxWidth: "100%", width: "14rem" }}
+                                style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
                                 value={value}
                                 viewBox={`0 0 256 256`}
                             />
