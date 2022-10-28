@@ -69,22 +69,33 @@ const TimerPage = () => {
                                     fontSize: "23rem",
                                 }}>Good</div></>
                             ) : (
-                                <div className="w-screen h-screen flex flex-col bg-black justify-center items-center">
-                                    <div className='flex flex-row text-white' style={{ fontSize: "23rem" }}>
-                                        <p>{Math.floor(time / 60)}</p> :
-                                        <p>{time - Math.floor(time / 60) * 60}</p>
-                                    </div>
-                                    <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
-                                        <QRCode
+                                <>
+                                    {time > 0 ? (
+                                        <>
+                                            <div className="w-screen h-screen flex flex-col bg-black justify-center items-center">
+                                                <div className='flex flex-row text-white' style={{ fontSize: "23rem" }}>
+                                                    <p>{Math.floor(time / 60)}</p> :
+                                                    <p>{time - Math.floor(time / 60) * 60}</p>
+                                                </div>
+                                                <div style={{ position: "absolute", bottom: "0", right: "0" }} className='p-8 bg-white'>
+                                                    <QRCode
 
-                                            size={256}
-                                            style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
-                                            value={value}
-                                            viewBox={`0 0 256 256`}
-                                        />
-                                    </div>
-                                </div>
-
+                                                        size={256}
+                                                        style={{ height: "auto", maxWidth: "100%", width: "8rem" }}
+                                                        value={value}
+                                                        viewBox={`0 0 256 256`}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </>)
+                                        : (
+                                            <>
+                                                <><div className='w-full h-full flex justify-center items-center' style={{
+                                                    fontSize: "23rem",
+                                                }}>Failed</div></>
+                                            </>
+                                        )}
+                                </>
                             )
                         }
                     </>
